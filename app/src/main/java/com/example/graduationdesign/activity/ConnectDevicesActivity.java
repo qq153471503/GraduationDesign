@@ -1,9 +1,5 @@
 package com.example.graduationdesign.activity;
 
-<<<<<<< HEAD
-=======
-import android.app.Activity;
->>>>>>> origin/master
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
@@ -241,6 +237,10 @@ public class ConnectDevicesActivity extends ActionBarActivity{
                         outputStream.close();
                     if (bluetoothSocket.isConnected())
                         bluetoothSocket.close();
+                    if (dataInputStream != null)
+                        dataInputStream.close();
+                    if (dataOutputStream != null)
+                        dataInputStream.close();
                 }catch (IOException e){
                     e.printStackTrace();
                 }
@@ -302,6 +302,7 @@ public class ConnectDevicesActivity extends ActionBarActivity{
                         try {
                             bluetoothSocket.close();
                             outputStream.close();
+                            dataOutputStream.close();
                         }catch (IOException e){
                             e.printStackTrace();
                         }

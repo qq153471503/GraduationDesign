@@ -30,7 +30,7 @@ public class HomePageActivity extends Activity {
     private GifImageView gifImageView;
     private MyHandler myHandler = new MyHandler();
     private UpdateTimeThread updateTimeThread ;
-    private boolean STATE = true;
+    private boolean STATE = false;
     private OutputStream outputStream;
 
     @Override
@@ -51,22 +51,26 @@ public class HomePageActivity extends Activity {
         textView_ClikedTest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                STATE = !STATE;
+                STATE = !STATE;
                 if (STATE){
                     try {
                         ConnectDevicesActivity.connectDevicesActivity.dataOutputStream.write(ControlFlag.HEART_SENSOR_START);
                         new Thread(new Runnable() {
+                            int dat = 0;
                             @Override
                             public void run() {
                                 try {
-                                   int dat = ConnectDevicesActivity.connectDevicesActivity.dataInputStream.read();
-                                    final String cnt = String.valueOf(dat);
-                                    runOnUiThread(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            textView_ClikedTest.setText("BMP: "+ cnt +"\n点击刷新");
-                                        }
-                                    });
+                                    for (;;) {
+                                        dat = ConnectDevicesActivity.connectDevicesActivity.dataInputStream.read();
+                                        final String cnt = String.valueOf(dat);
+                                        runOnUiThread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                textView_ClikedTest.setText("BMP: " + cnt + "\n点击刷新");
+                                                gifImageView.setImageResource(R.drawable.heart);
+                                            }
+                                        });
+                                    }
                                 } catch (IOException e) {
                                     e.printStackTrace();
                                 }
@@ -76,17 +80,17 @@ public class HomePageActivity extends Activity {
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-//                    gifImageView.setImageResource(R.drawable.heart);
+                    gifImageView.setImageResource(R.drawable.heart);
                 }
-//                else {
-//                    gifImageView.setImageResource(R.drawable.heart2);
-//                    textView_ClikedTest.setText("测试中...");
-//                    try {
-//                        ConnectDevicesActivity.connectDevicesActivity.dataOutputStream.write(ControlFlag.HEART_SENSOR_STOP);
-//                    } catch (IOException e) {
-//                        e.printStackTrace();
-//                    }
-//                }
+                else {
+                    gifImageView.setImageResource(R.drawable.heart2);
+                    textView_ClikedTest.setText("测试中...");
+                    try {
+                        ConnectDevicesActivity.connectDevicesActivity.dataOutputStream.write(ControlFlag.HEART_SENSOR_STOP);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
             }
         });
 
