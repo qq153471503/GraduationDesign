@@ -1,5 +1,9 @@
 package com.example.graduationdesign.activity;
 
+<<<<<<< HEAD
+=======
+import android.app.Activity;
+>>>>>>> origin/master
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
